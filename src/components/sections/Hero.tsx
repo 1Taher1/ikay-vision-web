@@ -66,7 +66,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <a 
                 href="#contact" 
-                className="btn-primary group flex items-center justify-center gap-2 relative overflow-hidden"
+                className="btn-primary group flex items-center justify-center gap-2 relative overflow-hidden animate-pulse hover:animate-none"
               >
                 <span className="relative z-10">Get a Quote</span>
                 <ArrowRight 
@@ -99,12 +99,6 @@ const Hero = () => {
             </div>
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-orange/20 rounded-full"></div>
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-blue/20 rounded-full"></div>
-            
-            {/* Floating badge */}
-            <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 bg-white py-3 px-6 rounded-xl shadow-lg rotate-3">
-              <div className="text-sm font-semibold text-brand-blue-dark">Trusted by</div>
-              <div className="text-lg font-bold">200+ Clients</div>
-            </div>
           </div>
         </div>
       </div>

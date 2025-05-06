@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
@@ -20,7 +21,7 @@ const projects = [
     title: 'Hospital Ventilation System',
     category: 'Healthcare',
     description: 'Design and implementation of specialized ventilation system with HEPA filtration for a 200-bed hospital.',
-    image: 'https://images.unsplash.com/photo-1578991624414-c33767ba67ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80',
+    image: 'https://plus.unsplash.com/premium_photo-1661698763470-aaebec669df8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1051&q=80',
     location: 'Chennai, India'
   },
   {
@@ -28,7 +29,7 @@ const projects = [
     title: 'Manufacturing Plant MEP Installation',
     category: 'Industrial',
     description: 'Comprehensive MEP services for a new manufacturing facility including industrial-grade HVAC systems.',
-    image: 'https://images.unsplash.com/photo-1565105336789-d284da5064b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1050&q=80',
     location: 'Pune, India'
   },
   {
@@ -44,7 +45,7 @@ const projects = [
     title: 'Retail Mall HVAC System',
     category: 'Commercial',
     description: 'Design and implementation of central HVAC system for a 500,000 sq ft shopping mall.',
-    image: 'https://images.unsplash.com/photo-1519693360395-4861f7540588?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+    image: 'https://images.unsplash.com/photo-1533653638083-702db8cdd3cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1050&q=80',
     location: 'Mumbai, India'
   },
   {

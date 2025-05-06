@@ -75,7 +75,7 @@ const Testimonials = () => {
       <div className="container-custom relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <h2 className="section-title">What Our Clients Say</h2>
-          <p className="section-subtitle relative inline-block">
+          <p className="section-subtitle relative inline-block text-brand-orange-dark">
             Don't just take our word for it - hear from the businesses we've helped.
             <span className="absolute -bottom-2 left-1/2 w-24 h-1 bg-brand-orange-dark transform -translate-x-1/2"></span>
           </p>
