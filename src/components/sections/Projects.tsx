@@ -87,15 +87,13 @@ const Projects = () => {
               <TabsTrigger 
                 key={category} 
                 value={category}
-                className={({ selected }) =>
-                  cn(
-                    'px-4 py-2 rounded-md font-medium transition-all',
-                    'focus:outline-none',
-                    selected
-                      ? 'bg-brand-blue text-white shadow-md'
-                      : 'bg-white text-gray-700 hover:bg-gray-100'
-                  )
-                }
+                className={cn(
+                  'px-4 py-2 rounded-md font-medium transition-all',
+                  'focus:outline-none',
+                  selectedCategory === category
+                    ? 'bg-brand-blue text-white shadow-md'
+                    : 'bg-white text-gray-700 hover:bg-gray-100'
+                )}
               >
                 {category}
               </TabsTrigger>
