@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Tab } from '@headlessui/react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
@@ -81,11 +81,12 @@ const Projects = () => {
           </p>
         </div>
 
-        <Tab.Group>
-          <Tab.List className="flex flex-wrap justify-center space-x-1 sm:space-x-2 mb-12">
+        <Tabs defaultValue="All" onValueChange={setSelectedCategory}>
+          <TabsList className="flex flex-wrap justify-center space-x-1 sm:space-x-2 mb-12">
             {projectCategories.map((category) => (
-              <Tab
-                key={category}
+              <TabsTrigger 
+                key={category} 
+                value={category}
                 className={({ selected }) =>
                   cn(
                     'px-4 py-2 rounded-md font-medium transition-all',
@@ -95,39 +96,37 @@ const Projects = () => {
                       : 'bg-white text-gray-700 hover:bg-gray-100'
                   )
                 }
-                onClick={() => setSelectedCategory(category)}
               >
                 {category}
-              </Tab>
+              </TabsTrigger>
             ))}
-          </Tab.List>
-          <Tab.Panels>
-            <Tab.Panel className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className="overflow-hidden rounded-lg shadow-md cursor-pointer group card-hover"
-                  onClick={() => openProjectDetails(project)}
-                >
-                  <div className="h-48 overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-5 bg-white">
-                    <span className="text-xs font-medium text-brand-blue rounded-full px-2 py-1 bg-brand-blue/10">
-                      {project.category}
-                    </span>
-                    <h3 className="text-lg font-bold mt-2 text-brand-blue-dark">{project.title}</h3>
-                    <p className="text-sm text-gray-600 mt-1">{project.location}</p>
-                  </div>
+          </TabsList>
+          
+          <TabsContent value={selectedCategory} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className="overflow-hidden rounded-lg shadow-md cursor-pointer group card-hover"
+                onClick={() => openProjectDetails(project)}
+              >
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
                 </div>
-              ))}
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
+                <div className="p-5 bg-white">
+                  <span className="text-xs font-medium text-brand-blue rounded-full px-2 py-1 bg-brand-blue/10">
+                    {project.category}
+                  </span>
+                  <h3 className="text-lg font-bold mt-2 text-brand-blue-dark">{project.title}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{project.location}</p>
+                </div>
+              </div>
+            ))}
+          </TabsContent>
+        </Tabs>
 
         {selectedProject && (
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
