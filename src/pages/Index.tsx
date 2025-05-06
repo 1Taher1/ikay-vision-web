@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/sections/Hero";
@@ -13,6 +13,8 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/Footer";
 
 const Index = () => {
+  const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -22,14 +24,57 @@ const Index = () => {
         if (targetId) {
           const targetElement = document.getElementById(targetId);
           if (targetElement) {
+            // Add smooth scroll with easing
+            const headerOffset = 80;
+            const elementPosition = targetElement.offsetTop;
+            const offsetPosition = elementPosition - headerOffset;
+            
             window.scrollTo({
-              top: targetElement.offsetTop - 80, // Offset for fixed header
+              top: offsetPosition,
               behavior: 'smooth'
             });
           }
         }
       });
     });
+
+    // Handle scroll effect for header
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Add metadata and schema markup for SEO
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Ikay Engineering Solutions",
+      "url": "https://ikayengineering.com",
+      "logo": "/lovable-uploads/c56ab0dd-28a8-4278-bfcf-b89f1d72b61b.png",
+      "description": "Premium MEP & HVAC solutions including design, supply, installation & maintenance for commercial and industrial facilities.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Business Park",
+        "addressLocality": "Hyderabad",
+        "postalCode": "500081",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-9876543210",
+        "contactType": "customer service"
+      }
+    };
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
@@ -55,9 +100,33 @@ const Index = () => {
 
         {/* Canonical URL */}
         <link rel="canonical" href="https://ikayengineering.com/" />
+        
+        {/* Add structured data for SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Ikay Engineering Solutions",
+            "url": "https://ikayengineering.com",
+            "logo": "/lovable-uploads/c56ab0dd-28a8-4278-bfcf-b89f1d72b61b.png",
+            "description": "Premium MEP & HVAC solutions including design, supply, installation & maintenance for commercial and industrial facilities.",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "123 Business Park",
+              "addressLocality": "Hyderabad",
+              "postalCode": "500081",
+              "addressCountry": "IN"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-9876543210",
+              "contactType": "customer service"
+            }
+          })}
+        </script>
       </Helmet>
 
-      <Navbar />
+      <Navbar scrolled={scrolled} />
       <main className="overflow-x-hidden">
         <Hero />
         <About />

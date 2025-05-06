@@ -1,8 +1,9 @@
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { useInView } from 'react-intersection-observer';
 
 const projectCategories = ['All', 'Commercial', 'Healthcare', 'Industrial', 'Residential'];
 
@@ -61,6 +62,12 @@ const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
+  // Animation when section comes into view
+  const { ref: sectionRef, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
 
   const filteredProjects = selectedCategory === 'All' 
     ? projects 
@@ -72,59 +79,89 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="section-padding bg-white">
-      <div className="container-custom">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+    <section 
+      id="projects" 
+      ref={sectionRef}
+      className="section-padding bg-white relative overflow-hidden"
+    >
+      {/* Background decorations */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-brand-blue-light/10 rounded-bl-full"></div>
+      <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-brand-orange-light/10 rounded-tr-full"></div>
+      
+      <div className="container-custom relative z-10">
+        <div className={cn(
+          "text-center max-w-3xl mx-auto mb-16 transition-all duration-700 transform",
+          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        )}>
           <h2 className="section-title">Our Projects</h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle relative inline-block">
             Browse through our portfolio of successful MEP & HVAC installations across various sectors.
+            <span className="absolute -bottom-2 left-1/2 w-24 h-1 bg-brand-orange-dark transform -translate-x-1/2"></span>
           </p>
         </div>
 
-        <Tabs defaultValue="All" onValueChange={setSelectedCategory}>
-          <TabsList className="flex flex-wrap justify-center space-x-1 sm:space-x-2 mb-12">
-            {projectCategories.map((category) => (
-              <TabsTrigger 
-                key={category} 
-                value={category}
-                className={cn(
-                  'px-4 py-2 rounded-md font-medium transition-all',
-                  'focus:outline-none',
-                  selectedCategory === category
-                    ? 'bg-brand-blue text-white shadow-md'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
-                )}
-              >
-                {category}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          
-          <TabsContent value={selectedCategory} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <div
-                key={project.id}
-                className="overflow-hidden rounded-lg shadow-md cursor-pointer group card-hover"
-                onClick={() => openProjectDetails(project)}
-              >
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-5 bg-white">
-                  <span className="text-xs font-medium text-brand-blue rounded-full px-2 py-1 bg-brand-blue/10">
-                    {project.category}
-                  </span>
-                  <h3 className="text-lg font-bold mt-2 text-brand-blue-dark">{project.title}</h3>
-                  <p className="text-sm text-gray-600 mt-1">{project.location}</p>
-                </div>
+        <div className={cn(
+          "transition-all duration-700 delay-300 transform",
+          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        )}>
+          <Tabs defaultValue="All" onValueChange={setSelectedCategory}>
+            <TabsList className="flex flex-wrap justify-center space-x-1 sm:space-x-2 mb-12">
+              {projectCategories.map((category) => (
+                <TabsTrigger 
+                  key={category} 
+                  value={category}
+                  className={cn(
+                    'px-4 py-2 rounded-md font-medium transition-all',
+                    'focus:outline-none',
+                    selectedCategory === category
+                      ? 'bg-brand-blue text-white shadow-md'
+                      : 'bg-white text-gray-700 hover:bg-gray-100'
+                  )}
+                >
+                  {category}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            
+            <TabsContent value={selectedCategory}>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProjects.map((project, index) => (
+                  <div
+                    key={project.id}
+                    onClick={() => openProjectDetails(project)}
+                    className={cn(
+                      "overflow-hidden rounded-lg shadow-md cursor-pointer group",
+                      "transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl",
+                      "opacity-0"
+                    )}
+                    style={{
+                      animationName: 'fade-in',
+                      animationDuration: '0.5s',
+                      animationDelay: `${index * 0.1 + 0.3}s`,
+                      animationFillMode: 'forwards',
+                    }}
+                  >
+                    <div className="h-48 overflow-hidden">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-5 bg-white">
+                      <span className="text-xs font-medium text-brand-blue rounded-full px-2 py-1 bg-brand-blue/10">
+                        {project.category}
+                      </span>
+                      <h3 className="text-lg font-bold mt-2 text-brand-blue-dark">{project.title}</h3>
+                      <p className="text-sm text-gray-600 mt-1">{project.location}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </TabsContent>
-        </Tabs>
+            </TabsContent>
+          </Tabs>
+        </div>
 
         {selectedProject && (
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -134,7 +171,8 @@ const Projects = () => {
                   <img
                     src={selectedProject.image}
                     alt={selectedProject.title}
-                    className="w-full h-56 object-cover"
+                    className="w-full h-64 object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="text-xl font-bold text-brand-blue-dark mb-2">
