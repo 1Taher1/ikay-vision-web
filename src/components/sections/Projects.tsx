@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
-import { useInView } from 'react-intersection-observer';
+import { useInView } from '@/hooks/use-intersection-observer';
 
 const projectCategories = ['All', 'Commercial', 'Healthcare', 'Industrial', 'Residential'];
 
@@ -63,7 +63,7 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
-  // Animation when section comes into view
+  // Using our custom useInView hook
   const { ref: sectionRef, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
