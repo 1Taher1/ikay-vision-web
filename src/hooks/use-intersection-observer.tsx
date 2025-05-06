@@ -10,8 +10,8 @@ interface IntersectionObserverOptions {
 
 export function useInView(
   options: IntersectionObserverOptions = {}
-): { ref: RefObject<Element>; inView: boolean } {
-  const [ref, setRef] = useState<Element | null>(null);
+): { ref: (node: HTMLElement | null) => void; inView: boolean } {
+  const [ref, setRef] = useState<HTMLElement | null>(null);
   const [inView, setInView] = useState<boolean>(false);
 
   const { root = null, rootMargin = '0px', threshold = 0, triggerOnce = false } = options;
@@ -41,5 +41,5 @@ export function useInView(
     };
   }, [ref, root, rootMargin, threshold, triggerOnce]);
 
-  return { ref: setRef as unknown as RefObject<Element>, inView };
+  return { ref: setRef, inView };
 }

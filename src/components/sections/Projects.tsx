@@ -1,7 +1,6 @@
-
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { useInView } from '@/hooks/use-intersection-observer';
 
@@ -166,6 +165,7 @@ const Projects = () => {
         {selectedProject && (
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogContent className="sm:max-w-lg">
+              <DialogTitle className="sr-only">{selectedProject.title}</DialogTitle>
               <div>
                 <div className="mb-4 overflow-hidden rounded-lg">
                   <img
